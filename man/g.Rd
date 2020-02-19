@@ -4,7 +4,7 @@
 \name{g}
 \alias{g}
 \title{A directed acyclic graph corresponding to the Adrenergic signaling in cardiomyocytes pathway from KEGG}
-\format{An object of class \code{igraph} with 136 nodes and 770 directed edges.}
+\format{An object of class \code{igraph} of length 10.}
 \usage{
 g
 }
