@@ -11,8 +11,6 @@ function(se0, sg0, D, r, n_vec, control=NULL){
       lklMethod = control$lklMethod
     }
     
-    matTr <- function(z) sum(diag(z))
-    
     p = nrow(D[[1]])
     Ip = diag(rep(1, p))
     ncond = length(D)
@@ -29,7 +27,7 @@ function(se0, sg0, D, r, n_vec, control=NULL){
         Rm[[loop_cond]] = Rm[[loop_cond]] +  tmp[, i] %o% tmp[, i]
       }
     }
-    DtD = lapply(1:ncond, function(k) D[[k]] %*% t(D[[k]]))
+    DDt = lapply(D, tcrossprod)
     
     gap = 1
     sg = sg0
@@ -45,8 +43,8 @@ function(se0, sg0, D, r, n_vec, control=NULL){
       # print(cnt)
       cnt = cnt + 1
       
-      SS = lapply(1:ncond, function(k) solve(sg * DtD[[k]] + se*Ip) %*% Rm[[k]] )
-      tmp0 = lapply(SS, matTr)
+      SS = lapply(1:ncond, function(k) solve(sg * DDt[[k]] + se*Ip) %*% Rm[[k]] )
+      tmp0 = lapply(SS, function(z) sum(diag(z)))
       tmp0 = Reduce("+", tmp0)
       
       if (s2profile == "se") {     
